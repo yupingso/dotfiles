@@ -2,7 +2,7 @@
 Dot files on linux such as `.vimrc`.
 
 ## vim
-Please visit https://github.com/amix/vimrc.
+`cp vimrc ~/.vimrc`
 
 ## git
 `sh setup_git.sh`
