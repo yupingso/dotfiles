@@ -6,3 +6,6 @@ Dot files on linux such as `.vimrc`.
 
 ## git
 `sh setup_git.sh`
+
+## bash
+`cp bashrc ~/.bashrc`
