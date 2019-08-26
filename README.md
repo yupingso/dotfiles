@@ -10,3 +10,7 @@ Dot files on linux such as `.vimrc`.
 
 ## bash
 `cp bashrc ~/.bashrc`
+
+## tmux
+`cp tmux.conf ~/.tmux.conf`
+`cp tmux.conf.local ~/.tmux.conf.local`
