@@ -170,6 +170,8 @@ set ffs=unix,dos,mac
 set nobackup
 set nowb
 set noswapfile
+set undofile
+set undodir=~/.vim/undodir
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
