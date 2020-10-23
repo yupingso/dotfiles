@@ -1,0 +1,20 @@
+set tabstop=8
+set shiftwidth=8
+set softtabstop=0 noexpandtab
+
+set colorcolumn=81
+
+" Trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+set nofixendofline
+
+" Syntax highlighting
+augroup twig_ft
+    au!
+    autocmd BufNewFile,BufRead Makefile.inc   set syntax=make
+    autocmd BufNewFile,BufRead *.ld   set syntax=c
+    autocmd BufNewFile,BufRead control   set syntax=python
+    autocmd BufNewFile,BufRead control.dev   set syntax=python
+    autocmd BufNewFile,BufRead control.ec_wp   set syntax=python
+augroup END
