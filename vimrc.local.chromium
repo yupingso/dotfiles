@@ -18,3 +18,6 @@ augroup twig_ft
     autocmd BufNewFile,BufRead control.dev   set syntax=python
     autocmd BufNewFile,BufRead control.ec_wp   set syntax=python
 augroup END
+
+" Indentation
+autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
