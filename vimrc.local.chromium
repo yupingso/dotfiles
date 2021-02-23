@@ -14,6 +14,7 @@ augroup twig_ft
     au!
     autocmd BufNewFile,BufRead Makefile.inc   set syntax=make
     autocmd BufNewFile,BufRead *.ld   set syntax=c
+    autocmd BufNewFile,BufRead .pylintrc   set syntax=cfg
     autocmd BufNewFile,BufRead control   set syntax=python
     autocmd BufNewFile,BufRead control.*   set syntax=python
 augroup END
