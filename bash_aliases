@@ -10,3 +10,4 @@ alias parse-changes='~/projects/tools/parse_changes.py'
 alias up='repo upload . --cbr'
 alias md_browser='~/projects/chromiumos/src/chromium/src/tools/md_browser/md_browser.py'
 alias osc52='~/projects/tools/osc52.sh'
+alias crashlog="~/projects/tools/crashlog.par"
