@@ -49,6 +49,7 @@ Plugin 'rking/ag.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-python/python-syntax'
+let g:python_highlight_builtins = 1
 let g:python_highlight_string_format = 1
 
 " plugin from http://vim-scripts.org/vim/scripts.html
