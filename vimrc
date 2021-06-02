@@ -51,6 +51,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-python/python-syntax'
 let g:python_highlight_builtins = 1
 let g:python_highlight_string_format = 1
+Plugin 'tmhedberg/SimpylFold'
+set foldlevel=99
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
