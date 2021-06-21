@@ -10,6 +10,3 @@ alias gen_uprev_msg='~/projects/chromiumos/src/platform/dev/contrib/gen_uprev_ms
 alias up='repo upload . --cbr'
 alias upc='cros_sdk --working-dir . -- repo upload . --cbr'
 alias md_browser='~/projects/chromiumos/src/chromium/src/tools/md_browser/md_browser.py'
-alias osc52='~/projects/tools/osc52.sh'
-alias crashlog="~/projects/tools/crashlog.par"
-alias fw_checkout="~/projects/tools/fw_checkout.sh"
