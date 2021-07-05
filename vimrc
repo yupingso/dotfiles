@@ -53,6 +53,8 @@ let g:python_highlight_builtins = 1
 let g:python_highlight_string_format = 1
 Plugin 'tmhedberg/SimpylFold'
 set foldlevel=99
+Plugin 'ctrlpvim/ctrlp.vim'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
