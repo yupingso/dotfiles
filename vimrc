@@ -55,6 +55,7 @@ Plugin 'tmhedberg/SimpylFold'
 set foldlevel=99
 Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_map = ''
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
@@ -453,5 +454,8 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <C-N> :tabn<CR>
 nmap <C-P> :tabp<CR>
+
+" ctrlp.vim
+nnoremap <leader>f :CtrlP<cr>
 
 source ~/.vimrc.local
