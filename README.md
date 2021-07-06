@@ -1,16 +1,18 @@
 # dotfiles
 Dot files on linux such as `.vimrc`.
 
-## vim
-`cp vimrc ~/.vimrc`
-`cp vimrc.local ~/.vimrc.local`
+## Sync dot files
 
-## git
-`sh setup_git.sh`
+Add dotfiles/scripts to `PATH` environment variable.
+Run `dotfile.py -h` for detailed usage.
 
-## bash
-`cp bashrc ~/.bashrc`
+Example filemap.json:
 
-## tmux
-`cp tmux.conf ~/.tmux.conf`
-`cp tmux.conf.local ~/.tmux.conf.local`
+```json
+{
+  ".vimrc.local": "vimrc.local.chromium"
+}
+```
+## Set up git
+
+Run `setup_git.sh`.
