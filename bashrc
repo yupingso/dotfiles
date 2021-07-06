@@ -106,3 +106,5 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
