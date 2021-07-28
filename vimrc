@@ -44,8 +44,6 @@ Plugin 'VundleVim/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-" Plugin 'mileszs/ack.vim'
-Plugin 'rking/ag.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-python/python-syntax'
@@ -53,9 +51,8 @@ let g:python_highlight_builtins = 1
 let g:python_highlight_string_format = 1
 Plugin 'tmhedberg/SimpylFold'
 set foldlevel=99
-Plugin 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-let g:ctrlp_map = ''
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
@@ -455,7 +452,8 @@ endfunction
 nmap <C-N> :tabn<CR>
 nmap <C-P> :tabp<CR>
 
-" ctrlp.vim
-nnoremap <leader>f :CtrlP<cr>
+" fzf.vim
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>gf :GFiles<cr>
 
 source ~/.vimrc.local
