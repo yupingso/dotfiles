@@ -84,9 +84,10 @@ def main():
 
     # Make sure tree is clean, and sync tree
     if not args.no_check:
-        subprocess.check_call(['git', 'diff', '--quiet'])
-        subprocess.check_call(['git', 'diff', '--cached', '--quiet'])
-        subprocess.check_call(['git', 'pull', '--ff-only'])
+        subprocess.check_call(['git', 'diff', '--quiet'], cwd=ROOT_PATH)
+        subprocess.check_call(['git', 'diff', '--cached', '--quiet'],
+                              cwd=ROOT_PATH)
+        subprocess.check_call(['git', 'pull', '--ff-only'], cwd=ROOT_PATH)
 
     file_map = load_file_map()
     if args.update:
