@@ -455,5 +455,15 @@ nmap <C-P> :tabp<CR>
 " fzf.vim
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>gf :GFiles<cr>
+nnoremap <leader>rg :Rg<space>
+" From https://github.com/junegunn/fzf.vim/issues/837
+command! -bang -nargs=* GRg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '
+  \     .shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(
+  \     {'dir': systemlist('git rev-parse --show-toplevel')[0]}),
+  \   <bang>0)
+nnoremap <leader>grg :GRg<space>
 
 source ~/.vimrc.local
