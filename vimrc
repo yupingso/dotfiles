@@ -465,5 +465,6 @@ command! -bang -nargs=* GRg
   \     {'dir': systemlist('git rev-parse --show-toplevel')[0]}),
   \   <bang>0)
 nnoremap <leader>grg :GRg<space>
+nnoremap <leader>gw :GRg <C-R><C-W><cr>
 
 source ~/.vimrc.local
