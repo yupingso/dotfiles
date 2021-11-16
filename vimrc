@@ -459,7 +459,7 @@ nnoremap <leader>rg :Rg<space>
 " From https://github.com/junegunn/fzf.vim/issues/837
 command! -bang -nargs=* GRg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case -- '
+  \   'rg --column --line-number --no-heading --color=always --smart-case --word-regexp -- '
   \     .shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(
   \     {'dir': systemlist('git rev-parse --show-toplevel')[0]}),
