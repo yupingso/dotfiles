@@ -11,7 +11,6 @@ set nofixendofline
 
 " Syntax highlighting
 augroup filetypedetect
-    au!
     autocmd BufNewFile,BufRead Makefile.inc   set syntax=make
     autocmd BufNewFile,BufRead *.ld   set syntax=c
     autocmd BufNewFile,BufRead .pylintrc   set syntax=cfg
