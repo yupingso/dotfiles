@@ -18,6 +18,7 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead control   set syntax=python
     autocmd BufNewFile,BufRead control.*   set syntax=python
     autocmd BufNewFile,BufRead *.star   set syntax=python
+    autocmd BufNewFile,BufRead */coreboot/*   set colorcolumn=97
 augroup END
 
 " Indentation
