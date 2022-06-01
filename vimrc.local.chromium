@@ -10,7 +10,7 @@ match ExtraWhitespace /\s\+$/
 set nofixendofline
 
 " Syntax highlighting
-augroup twig_ft
+augroup filetypedetect
     au!
     autocmd BufNewFile,BufRead Makefile.inc   set syntax=make
     autocmd BufNewFile,BufRead *.ld   set syntax=c
