@@ -46,6 +46,7 @@ Plugin 'VundleVim/Vundle.vim'
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'morhetz/gruvbox'
 Plugin 'vim-python/python-syntax'
 let g:python_highlight_builtins = 1
 let g:python_highlight_string_format = 1
@@ -199,11 +200,6 @@ syntax enable
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
-
-try
-    colorscheme desert
-catch
-endtry
 
 set background=dark
 
