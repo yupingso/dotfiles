@@ -455,12 +455,21 @@ nnoremap <leader>rg :Rg<space>
 " From https://github.com/junegunn/fzf.vim/issues/837
 command! -bang -nargs=* GRg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case --word-regexp -- '
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '
   \     .shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(
   \     {'dir': systemlist('git rev-parse --show-toplevel')[0]}),
   \   <bang>0)
 nnoremap <leader>grg :GRg<space>
-nnoremap <leader>gw :GRg <C-R><C-W><cr>
+command! -bang -nargs=* Gw
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --word-regexp -- '
+  \     .shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(
+  \     {'dir': systemlist('git rev-parse --show-toplevel')[0]}),
+  \   <bang>0)
+nnoremap <leader>gw :Gw <C-R><C-W><cr>
+
+nnoremap <leader>gb :Git blame<cr>
 
 source ~/.vimrc.local
