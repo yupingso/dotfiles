@@ -461,14 +461,14 @@ command! -bang -nargs=* GRg
   \     {'dir': systemlist('git rev-parse --show-toplevel')[0]}),
   \   <bang>0)
 nnoremap <leader>grg :GRg<space>
-command! -bang -nargs=* Gw
+command! -bang -nargs=* GRgw
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case --word-regexp -- '
   \     .shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(
   \     {'dir': systemlist('git rev-parse --show-toplevel')[0]}),
   \   <bang>0)
-nnoremap <leader>gw :Gw <C-R><C-W><cr>
+nnoremap <leader>gw :GRgw <C-R><C-W><cr>
 
 nnoremap <leader>gb :Git blame<cr>
 
