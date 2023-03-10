@@ -47,6 +47,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'morhetz/gruvbox'
+Plugin 'fatih/vim-go'
 Plugin 'vim-python/python-syntax'
 let g:python_highlight_builtins = 1
 let g:python_highlight_string_format = 1
