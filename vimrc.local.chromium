@@ -9,6 +9,8 @@ highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 set nofixendofline
 
+au BufNewFile,BufRead *.ipd,*.star,*.starlark	setf starlark
+
 " Syntax highlighting
 augroup filetypedetect
     autocmd BufNewFile,BufRead Makefile.inc   set syntax=make
@@ -23,3 +25,4 @@ augroup END
 " Indentation
 autocmd FileType yaml,grd setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 autocmd FileType html,css,javascript setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+autocmd FileType python,starlark setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
