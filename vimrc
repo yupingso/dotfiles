@@ -55,6 +55,7 @@ Plugin 'tmhedberg/SimpylFold'
 set foldlevel=99
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
+Plugin 'tpope/vim-obsession'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
