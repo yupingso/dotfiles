@@ -52,9 +52,10 @@ def load_file_map():
 def update_files(file_map):
     """Update effective dot files."""
     for k, v in file_map.items():
-        if filecmp.cmp(k, v):
+        old_path = k if k.exists() else pathlib.Path('/dev/null')
+        if filecmp.cmp(old_path, v):
             continue
-        proc = subprocess.run(['diff', k, v],
+        proc = subprocess.run(['diff', old_path, v],
                               capture_output=True,
                               encoding='utf-8',
                               check=False)
