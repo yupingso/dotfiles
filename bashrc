@@ -108,3 +108,4 @@ if ! shopt -oq posix; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
