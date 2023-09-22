@@ -18,6 +18,7 @@ DEFAULT_FILE_MAP = {
     '.vimrc.local': 'vimrc.local',
     '.bashrc': 'bashrc',
     '.bash_aliases': 'bash_aliases',
+    '.bash_profile': 'bash_profile',
     '.tmux.conf': 'tmux.conf',
     '.tmux.conf.local': 'tmux.conf.local',
 }
