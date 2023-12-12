@@ -25,5 +25,6 @@ augroup END
 " Indentation
 autocmd FileType yaml,grd,sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 autocmd BufNewFile,BufRead *.ebuild setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
+autocmd BufNewFile,BufRead *.eclass setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
 autocmd FileType html,css,javascript setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 autocmd FileType python,starlark setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
