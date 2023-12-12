@@ -27,7 +27,7 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 if [ -d "$HOME/projects/depot_tools" ] ; then
-    PATH="$PATH:$HOME/projects/depot_tools"
+    PATH="$HOME/projects/depot_tools:$PATH"
 fi
 
 if [ -d "$HOME/projects/cros-scripts" ] ; then
