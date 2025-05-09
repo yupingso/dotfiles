@@ -57,6 +57,7 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'tpope/vim-obsession'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'rubberduck203/aosp-vim'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
