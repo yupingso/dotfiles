@@ -8,6 +8,30 @@ alias rcolor='sed -i -r "s///g; s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g"'
 alias tmux=tmx2
 alias copybara='/google/bin/releases/copybara/public/copybara/copybara'
 
+# Function to activate a specific venv and run ipython
+vipython() {
+	VENV_PATH="${HOME}/.venvs/common"
+
+	# Check if the venv path exists
+	if [ ! -d "${VENV_PATH}" ]; then
+		echo "Error: Virtual environment path not found: ${VENV_PATH}"
+	fi
+
+	# shellcheck source=/dev/null
+	source "${VENV_PATH}/bin/activate"
+
+	# Check if ipython is available in the venv
+	if command -v ipython &> /dev/null; then
+		echo "Starting IPython in ${VENV_PATH} ..."
+		ipython "$@"
+	else
+		echo "IPython not found in this virtual environment: ${VENV_PATH}"
+	fi
+
+	echo "Deactivating virtual environment..."
+	deactivate
+}
+
 # Chromium
 alias dut-console='~/projects/chromiumos/src/platform/dev/contrib/dut-console'
 alias gen_uprev_msg='~/projects/chromiumos/src/platform/dev/contrib/gen_uprev_msg.py'
