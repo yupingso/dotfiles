@@ -6,7 +6,7 @@ alias rcolor='sed -i -r "s///g; s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g"'
 
 # gLinux
 alias tmux=tmx2
-alias ta=tmux a
+alias ta='tmux a'
 alias copybara='/google/bin/releases/copybara/public/copybara/copybara'
 
 # Function to activate a specific venv and run ipython
