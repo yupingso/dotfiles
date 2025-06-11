@@ -476,6 +476,6 @@ nnoremap <leader>gw :GRgw <C-R><C-W><cr>
 
 nnoremap <leader>gb :Git blame<cr>
 
-if filereadable("~/.vimrc.local")
+if filereadable(expand("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
