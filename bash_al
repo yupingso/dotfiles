@@ -1,0 +1,136 @@
+# Function 1: Executed in the outer shell, prepares directories and enters the unshare environment
+# Usage: BOARD=<board_name> al_setup_board_env
+al_setup_board_env() {
+	# Check if the BOARD environment variable is set
+	if [ -z "$BOARD" ]; then
+		echo "ERROR: BOARD environment variable is not set."
+		echo "Usage: BOARD=<board_name> al_setup_board_env"
+		return 1
+	fi
+
+	echo "Preparing environment for BOARD='$BOARD' in $(pwd)..."
+
+	local out_backup_dir="out_$BOARD" # Backup directory / mount source, e.g., out_brya
+	local out_mount_point="out"      # Mount point is fixed to "out"
+
+	# Core logic change: Directory handling
+	if [ -d "./${out_backup_dir}" ]; then
+		# If the target backup directory (e.g., out_brya) already exists,
+		# do not perform any move operation, to protect existing data.
+		echo "  INFO: Bind mount source './${out_backup_dir}' already exists and will be preserved."
+		echo "        Any existing './${out_mount_point}' will be used as the mount target (its contents will be hidden by the mount)."
+	else
+		# If out_$BOARD does NOT exist, then we consider whether to create it from an existing 'out'
+		if [ -d "./${out_mount_point}" ]; then
+			# out_$BOARD does not exist, but out exists, so move out to become out_$BOARD
+			echo "  INFO: Bind mount source './${out_backup_dir}' does not exist."
+			echo "        Moving current './${out_mount_point}' to './${out_backup_dir}' to serve as the bind mount source."
+			mv "./${out_mount_point}" "./${out_backup_dir}"
+			# Note: After moving, the original out_mount_point ('out') will disappear,
+			# and an empty one will be recreated later.
+		else
+			# Neither out_$BOARD nor out exists
+			echo "  WARNING: Neither './${out_backup_dir}' (target bind mount source) nor './${out_mount_point}' (original source for backup) found."
+			echo "           './${out_backup_dir}' will effectively be an empty directory if 'al_init_board_env' proceeds to mount it (unless you create and populate it manually first)."
+			echo "           Creating an empty './${out_backup_dir}' as a placeholder for the bind mount source."
+			mkdir -p "./${out_backup_dir}"
+		fi
+	fi
+
+	# Regardless of the previous logic, ensure the mount point directory (./out) exists.
+	echo "  Ensuring './${out_mount_point}' directory (target for bind mount) exists..."
+	mkdir -p "./${out_mount_point}" # This will be the target for the bind mount.
+
+	echo "Launching isolated '$BOARD' shell. Environment initialization will be attempted automatically." # Updated message
+	echo "------------------------------------------------------------------"
+
+	# Command to be executed by the new shell before the first prompt.
+	# It ensures al_init_board_env is defined (should be in .bashrc), then runs it, then unsets PROMPT_COMMAND.
+	local auto_init_script_for_prompt_command
+	read -r -d '' auto_init_script_for_prompt_command <<'EOF' || true
+if type al_init_board_env &>/dev/null; then
+		al_init_board_env
+	else
+		echo "WARNING: 'al_init_board_env' function not found in the new shell." >&2
+		echo "         Please ensure it is defined in your .bashrc or sourced profile scripts." >&2
+		echo "         Manual initialization might be required." >&2
+fi
+unset PROMPT_COMMAND
+EOF
+
+# sudo -E: Preserve environment for unshare itself (important for BOARD if not explicitly passed later, though we do)
+# sudo -u "$USER": Switch to the target user inside unshare
+# env BOARD="$BOARD" PROMPT_COMMAND="...": Set environment variables for the new bash
+# /bin/bash -i: Start an interactive bash shell, which will:
+#   1. Source ~/.bashrc (this should define al_init_board_env and al_setup_board_env).
+#   2. Execute the PROMPT_COMMAND before showing the first prompt.
+sudo -E unshare -m -f --propagation slave sudo -u "$USER" \
+	env BOARD="$BOARD" \
+	PROMPT_COMMAND="$auto_init_script_for_prompt_command" \
+	/bin/bash -i
+
+echo "Exited '$BOARD' shell."
+}
+
+# Function 2: al_init_board_env is now called automatically in the new shell if PROMPT_COMMAND works.
+# It expects out_$BOARD and out to both exist (handled by al_setup_board_env).
+al_init_board_env() {
+	# Check if the BOARD environment variable is set in the current (post-unshare) shell
+	if [ -z "$BOARD" ]; then
+		echo "ERROR: BOARD environment variable is not set in this shell."
+		echo "       This should have been propagated by 'al_setup_board_env'."
+		return 1
+	fi
+
+	echo "Initializing environment for BOARD='$BOARD' from within the isolated shell (auto-triggered)..."
+	echo "  Current directory: $(pwd)"
+
+	local out_backup_dir="out_$BOARD" # Mount source
+	local out_mount_point="out"      # Mount point
+
+	# 1. Perform the mount
+	if [ ! -d "./${out_backup_dir}" ]; then
+		echo "  ERROR: Bind mount source './${out_backup_dir}' directory not found."
+		echo "         'al_setup_board_env' should have handled its creation or preservation."
+		return 1
+	fi
+	if [ ! -d "./${out_mount_point}" ]; then
+		echo "  ERROR: Mount point './${out_mount_point}' not found."
+		return 1
+	fi
+
+	echo "  Attempting to bind mount './${out_backup_dir}' to './${out_mount_point}'..."
+	# sudo may prompt for password here if not recently entered. This is expected.
+	if sudo mount --bind "./${out_backup_dir}" "./${out_mount_point}"; then
+		local current_physical_dir
+		current_physical_dir=$(pwd -P) # Get physical path to avoid symlink issues for the check
+		# Check if mount was successful
+		if grep -qs " ${current_physical_dir}/${out_mount_point} " /proc/mounts || \
+			(type realpath &>/dev/null && grep -qs " $(realpath "./${out_mount_point}") " /proc/mounts); then
+		echo "  Successfully mounted './${out_backup_dir}' to './${out_mount_point}'."
+	else
+		echo "  ERROR: Mount check failed for './${out_backup_dir}' to './${out_mount_point}'. This might indicate an issue despite a successful mount command."
+		# Proceeding, as mount command itself didn't return error. User should verify.
+		fi
+	else
+		echo "  ERROR: Failed to mount './${out_backup_dir}' to './${out_mount_point}'. Check sudo permissions for mount, and paths."
+		return 1
+	fi
+
+
+	# 2. Set the command prompt
+	export PS1="$BOARD:$PS1"
+	echo "  Shell prompt updated for '$BOARD'."
+
+	# 3. Source the build environment setup script
+	if [ -f "build/envsetup.sh" ]; then
+		echo "  Sourcing 'build/envsetup.sh'..."
+		source "build/envsetup.sh"
+		echo "  'build/envsetup.sh' sourced."
+	else
+		echo "  WARNING: 'build/envsetup.sh' not found in $(pwd). Skipping."
+	fi
+
+	echo "  Environment initialized for '$BOARD'."
+	echo "  Type 'exit' to leave this isolated '$BOARD' shell."
+}
