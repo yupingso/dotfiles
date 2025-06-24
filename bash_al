@@ -1,10 +1,10 @@
 # Function 1: Executed in the outer shell, prepares directories and enters the unshare environment
-# Usage: BOARD=<board_name> al_setup_board_env
-al_setup_board_env() {
+# Usage: BOARD=<board_name> _al_setup_board_env
+_al_setup_board_env() {
 	# Check if the BOARD environment variable is set
 	if [ -z "$BOARD" ]; then
 		echo "ERROR: BOARD environment variable is not set."
-		echo "Usage: BOARD=<board_name> al_setup_board_env"
+		echo "Usage: BOARD=<board_name> _al_setup_board_env"
 		return 1
 	fi
 
@@ -31,7 +31,7 @@ al_setup_board_env() {
 		else
 			# Neither out_$BOARD nor out exists
 			echo "  WARNING: Neither './${out_backup_dir}' (target bind mount source) nor './${out_mount_point}' (original source for backup) found."
-			echo "           './${out_backup_dir}' will effectively be an empty directory if 'al_init_board_env' proceeds to mount it (unless you create and populate it manually first)."
+			echo "           './${out_backup_dir}' will effectively be an empty directory if '_al_init_board_env' proceeds to mount it (unless you create and populate it manually first)."
 			echo "           Creating an empty './${out_backup_dir}' as a placeholder for the bind mount source."
 			mkdir -p "./${out_backup_dir}"
 		fi
@@ -45,13 +45,13 @@ al_setup_board_env() {
 	echo "------------------------------------------------------------------"
 
 	# Command to be executed by the new shell before the first prompt.
-	# It ensures al_init_board_env is defined (should be in .bashrc), then runs it, then unsets PROMPT_COMMAND.
+	# It ensures _al_init_board_env is defined (should be in .bashrc), then runs it, then unsets PROMPT_COMMAND.
 	local auto_init_script_for_prompt_command
 	read -r -d '' auto_init_script_for_prompt_command <<'EOF' || true
-if type al_init_board_env &>/dev/null; then
-		al_init_board_env
+if type _al_init_board_env &>/dev/null; then
+		_al_init_board_env
 	else
-		echo "WARNING: 'al_init_board_env' function not found in the new shell." >&2
+		echo "WARNING: '_al_init_board_env' function not found in the new shell." >&2
 		echo "         Please ensure it is defined in your .bashrc or sourced profile scripts." >&2
 		echo "         Manual initialization might be required." >&2
 fi
@@ -62,7 +62,7 @@ EOF
 # sudo -u "$USER": Switch to the target user inside unshare
 # env BOARD="$BOARD" PROMPT_COMMAND="...": Set environment variables for the new bash
 # /bin/bash -i: Start an interactive bash shell, which will:
-#   1. Source ~/.bashrc (this should define al_init_board_env and al_setup_board_env).
+#   1. Source ~/.bashrc (this should define _al_init_board_env and _al_setup_board_env).
 #   2. Execute the PROMPT_COMMAND before showing the first prompt.
 sudo -E unshare -m -f --propagation slave sudo -u "$USER" \
 	env BOARD="$BOARD" \
@@ -72,13 +72,13 @@ sudo -E unshare -m -f --propagation slave sudo -u "$USER" \
 echo "Exited '$BOARD' shell."
 }
 
-# Function 2: al_init_board_env is now called automatically in the new shell if PROMPT_COMMAND works.
-# It expects out_$BOARD and out to both exist (handled by al_setup_board_env).
-al_init_board_env() {
+# Function 2: _al_init_board_env is now called automatically in the new shell if PROMPT_COMMAND works.
+# It expects out_$BOARD and out to both exist (handled by _al_setup_board_env).
+_al_init_board_env() {
 	# Check if the BOARD environment variable is set in the current (post-unshare) shell
 	if [ -z "$BOARD" ]; then
 		echo "ERROR: BOARD environment variable is not set in this shell."
-		echo "       This should have been propagated by 'al_setup_board_env'."
+		echo "       This should have been propagated by '_al_setup_board_env'."
 		return 1
 	fi
 
@@ -91,7 +91,7 @@ al_init_board_env() {
 	# 1. Perform the mount
 	if [ ! -d "./${out_backup_dir}" ]; then
 		echo "  ERROR: Bind mount source './${out_backup_dir}' directory not found."
-		echo "         'al_setup_board_env' should have handled its creation or preservation."
+		echo "         '_al_setup_board_env' should have handled its creation or preservation."
 		return 1
 	fi
 	if [ ! -d "./${out_mount_point}" ]; then
@@ -134,3 +134,5 @@ al_init_board_env() {
 	echo "  Environment initialized for '$BOARD'."
 	echo "  Type 'exit' to leave this isolated '$BOARD' shell."
 }
+
+alias al-setup-rauru='BOARD=rauru _al_setup_board_env'
