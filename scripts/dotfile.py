@@ -22,6 +22,7 @@ DEFAULT_FILE_MAP = {
     '.bash_profile': 'bash_profile',
     '.tmux.conf': 'tmux.conf',
     '.tmux.conf.local': 'tmux.conf.local',
+    '.config/nvim/init.vim': 'nvim/init.vim',
 }
 
 FILE_MAP_FILE = 'filemap.json'

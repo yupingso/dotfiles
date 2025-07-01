@@ -230,7 +230,9 @@ set nobackup
 set nowb
 set noswapfile
 set undofile
-set undodir=~/.vim/undodir
+if !has('nvim')
+    set undodir=~/.vim/undodir
+endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -449,6 +451,12 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Customization
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Work around the color scheme issue
+" https://www.reddit.com/r/neovim/comments/1d66jlw/color_scheme_problems_in_0100/
+if has('nvim')
+    colorscheme vim
+endif
+
 nmap <C-N> :tabn<CR>
 nmap <C-P> :tabp<CR>
 
