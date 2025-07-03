@@ -457,6 +457,8 @@ if has('nvim')
     colorscheme vim
 endif
 
+set mouse=
+
 nmap <C-N> :tabn<CR>
 nmap <C-P> :tabp<CR>
 
