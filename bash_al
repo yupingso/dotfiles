@@ -135,4 +135,5 @@ _al_init_board_env() {
 	echo "  Type 'exit' to leave this isolated '$BOARD' shell."
 }
 
+alias al-setup-brya='BOARD=brya _al_setup_board_env'
 alias al-setup-rauru='BOARD=rauru _al_setup_board_env'
