@@ -15,7 +15,9 @@ au BufNewFile,BufRead *.ipd,*.star,*.starlark	setf starlark
 augroup filetypedetect
     autocmd BufNewFile,BufRead Makefile.inc   set syntax=make
     autocmd BufNewFile,BufRead *.mk   set syntax=make
-    autocmd BufNewFile,BufRead *.ld   set syntax=c
+    autocmd BufNewFile,BufRead *.S set filetype=ld
+    autocmd BufNewFile,BufRead *.ld   set filetype=ld
+    autocmd BufNewFile,BufRead *.ldscript set filetype=ld
     autocmd BufNewFile,BufRead .pylintrc   set syntax=cfg
     autocmd BufNewFile,BufRead control   set syntax=python
     autocmd BufNewFile,BufRead control.*   set syntax=python
