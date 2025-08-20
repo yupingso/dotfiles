@@ -42,3 +42,7 @@ alias up='repo upload . --cbr'
 alias upc='cros_sdk --working-dir . -- repo upload . --cbr'
 alias md_browser='python2 ~/projects/chromiumos/src/chromium/src/tools/md_browser/md_browser.py'
 alias shivas='/usr/local/google/home/yupingso/projects/shivas/shivas'
+
+# Android
+alias rs='repo sync --optimized-fetch'
+alias rsn='repo sync --optimized-fetch --nmu'
