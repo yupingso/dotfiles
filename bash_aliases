@@ -35,6 +35,9 @@ vipython() {
 	deactivate
 }
 
+# Google
+alias gemini='/google/bin/releases/gemini-cli/tools/gemini'
+
 # Chromium
 alias dut-console='~/projects/chromiumos/src/platform/dev/contrib/dut-console'
 alias gen_uprev_msg='~/projects/chromiumos/src/platform/dev/contrib/gen_uprev_msg.py'
