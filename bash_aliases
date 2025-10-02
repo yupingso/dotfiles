@@ -49,3 +49,4 @@ alias shivas='/usr/local/google/home/yupingso/projects/shivas/shivas'
 # Android
 alias rs='repo sync --optimized-fetch'
 alias rsn='repo sync --optimized-fetch --nmu'
+alias al-smartsync='/google/src/head/depot/google3/wireless/android/aluminium/smartsync/sync.py --optimized-fetch'
