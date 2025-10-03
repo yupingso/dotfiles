@@ -43,6 +43,7 @@ alias dut-console='~/projects/chromiumos/src/platform/dev/contrib/dut-console'
 alias gen_uprev_msg='~/projects/chromiumos/src/platform/dev/contrib/gen_uprev_msg.py'
 alias up='repo upload . --cbr'
 alias upc='cros_sdk --working-dir . -- repo upload . --cbr'
+alias get-commit-kernel-ref="git log -1 --pretty=format:'commit %h ("%s")' --abbrev=12"
 alias md_browser='python2 ~/projects/chromiumos/src/chromium/src/tools/md_browser/md_browser.py'
 alias shivas='/usr/local/google/home/yupingso/projects/shivas/shivas'
 
