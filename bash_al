@@ -136,4 +136,5 @@ _al_init_board_env() {
 }
 
 alias al-setup-brya='BOARD=brya _al_setup_board_env'
+alias al-setup-hylia='BOARD=hylia _al_setup_board_env'
 alias al-setup-rauru='BOARD=rauru _al_setup_board_env'
