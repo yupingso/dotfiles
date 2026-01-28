@@ -133,6 +133,7 @@ _al_init_board_env() {
 
 	echo "  Environment initialized for '$BOARD'."
 	echo "  Type 'exit' to leave this isolated '$BOARD' shell."
+	echo "  Run 'lunch ${BOARD}-trunk_staging-userdebug'."
 }
 
 alias al-setup-brya='BOARD=brya _al_setup_board_env'
