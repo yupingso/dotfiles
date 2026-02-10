@@ -54,3 +54,4 @@ alias al-smartsync='/google/src/head/depot/google3/wireless/android/aluminium/sm
 alias srepo-sync='/google/data/ro/projects/android/smartsync_repo sync --optimized-fetch'
 alias srepo='/google/data/ro/projects/android/smartsync_repo'
 alias al-flash='~/.cargo/bin/writedisk'
+alias fa='/google/data/ro/projects/android/fetch_artifact'
