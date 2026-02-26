@@ -3,6 +3,7 @@ alias fd='fdfind'
 alias ag='ag --path-to-ignore ~/.ignore'
 # https://stackoverflow.com/questions/17998978/removing-colors-from-output
 alias rcolor='sed -i -r "s///g; s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g"'
+alias reboot='echo "Are you sure? (y/n)" && read -r confirm && [[ "$confirm" == "y" ]] && /sbin/reboot'
 
 # gLinux
 alias vim=nvim
