@@ -58,3 +58,23 @@ alias srepo-sync='/google/data/ro/projects/android/smartsync_repo sync --optimiz
 alias srepo='/google/data/ro/projects/android/smartsync_repo'
 alias al-flash='~/.cargo/bin/writedisk'
 alias fa='/google/data/ro/projects/android/fetch_artifact'
+
+# Rust
+alias cgb='cargo build'
+alias cgc='cargo clippy --all-targets -- -D missing_docs -D warnings -D unsafe_op_in_unsafe_fn -D clippy::undocumented_unsafe_blocks'
+alias cgt='cargo test'
+unalias cgf 2>/dev/null
+cgf() {
+	if [[ ! -f "Cargo.toml" ]]; then
+		cargo fmt "$@"
+		return
+	fi
+	local project_name=$(grep -m 1 '^name =' Cargo.toml | sed 's/name = "\(.*\)"/\1/' | tr -d '" ')
+	local temp_dir="${HOME}/.cargo/tmp/${project_name}/fmt"
+	mkdir -p "${temp_dir}"
+	local temp_manifest="${temp_dir}/Cargo.toml"
+  # Android uses 2021 edition for linting regardless of Android.bp's edition.
+	sed 's/^edition = ".*"/edition = "2021"/' Cargo.toml > "${temp_manifest}"
+	cargo fmt --manifest-path "${temp_manifest}" "$@"
+}
+alias cg='cgc && cgt && cgf'
