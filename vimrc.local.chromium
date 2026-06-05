@@ -9,6 +9,9 @@ highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 set nofixendofline
 
+" Modelines
+set nomodeline
+
 au BufNewFile,BufRead *.ipd,*.star,*.starlark	setf starlark
 
 " Syntax highlighting
