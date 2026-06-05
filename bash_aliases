@@ -37,7 +37,13 @@ vipython() {
 }
 
 # Google
-alias gemini='/google/bin/releases/gemini-cli/tools/gemini'
+#alias gemini='/google/bin/releases/gemini-cli/tools/gemini'
+alias gemini='/google/bin/images/image-69fd9a54-0000-20ae-a971-883d24ff3dec/gemini'
+alias jetski='/google/bin/releases/jetski-devs/tools/cli'
+alias jetski-fw='jetski \
+  --add-dir=$HOME/projects/chromiumos/src/third_party/coreboot \
+  --add-dir=$HOME/projects/chromiumos/src/platform/depthcharge \
+  --add-dir=$HOME/projects/chromiumos/src/platform/vboot_reference'
 
 # Chromium
 alias dut-console='~/projects/chromiumos/src/platform/dev/contrib/dut-console'
