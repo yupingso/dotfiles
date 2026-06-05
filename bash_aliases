@@ -77,7 +77,7 @@ alias cg='cgc && cgt && cgf'
 
 # DTS
 jf() {
-  local arsp="~/projects/arsp"
+  local arsp="${HOME}/projects/arsp"
   "${arsp}/tools/repohooks/tools/google-java-format.py" --fix \
     --google-java-format "${arsp}/prebuilts/tools/common/google-java-format/google-java-format" \
     --google-java-format-diff "${arsp}/prebuilts/tools/common/google-java-format/google-java-format-diff.py" \
