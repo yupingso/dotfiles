@@ -45,6 +45,11 @@ alias jetski-fw='jetski \
   --add-dir=$HOME/projects/chromiumos/src/platform/depthcharge \
   --add-dir=$HOME/projects/chromiumos/src/platform/vboot_reference'
 
+alias jetski-fwtool='jetski \
+  --add-dir=$HOME/projects/arsp/vendor/google/desktop/firmware-tool \
+  --add-dir=$HOME/projects/arsp/vendor/google/desktop/vpd-executor \
+  --add-dir=$HOME/projects/arsp/system/desktop/fingerprint/libfmap'
+
 # Chromium
 alias dut-console='~/projects/chromiumos/src/platform/dev/contrib/dut-console'
 alias gen_uprev_msg='~/projects/chromiumos/src/platform/dev/contrib/gen_uprev_msg.py'
