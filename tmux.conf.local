@@ -181,7 +181,7 @@ tmux_conf_theme_right_separator_sub='|'
 #     - #{username_ssh}
 # tmux_conf_theme_status_left=' ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
 tmux_conf_theme_status_left=' #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} '
+tmux_conf_theme_status_right='#(~/.gemini/jetski/cli/statusline_summary.sh)#{prefix}#{pairing}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} '
 
 # status left style
 tmux_conf_theme_status_left_fg='#000000,#e4e4e4,#e4e4e4'  # black, white , white
@@ -298,6 +298,18 @@ set -g mouse off
 
 # session
 bind z switch-client -l
+
+
+# -- jetski notification system ------------------------------------------------
+
+# Refresh status line every 5 seconds (to keep the counter responsive).
+set -g status-interval 5
+
+# Bind 'Prefix + v' to view the detailed list of active tasks.
+bind-key v run-shell "~/.gemini/jetski/cli/list_notifications.sh"
+
+# Bind 'Prefix + N' to clear notifications for CURRENT window.
+bind-key N run-shell "~/.gemini/jetski/cli/mark_read.sh"
 
 
 # -- Tmux Plugin Manager -------------------------------------------------------
