@@ -50,6 +50,8 @@ alias jetski-fwtool='jetski \
   --add-dir=$HOME/projects/arsp/vendor/google/desktop/vpd-executor \
   --add-dir=$HOME/projects/arsp/system/desktop/fingerprint/libfmap'
 
+alias allow-ptrace='sudo glinux-config -u set yama_ptrace false'
+
 # Chromium
 alias dut-console='~/projects/chromiumos/src/platform/dev/contrib/dut-console'
 alias gen_uprev_msg='~/projects/chromiumos/src/platform/dev/contrib/gen_uprev_msg.py'
