@@ -1,10 +1,10 @@
 # Function 1: Executed in the outer shell, prepares directories and enters the unshare environment
-# Usage: BOARD=<board_name> _al_setup_board_env
-_al_setup_board_env() {
+# Usage: BOARD=<board_name> al-setup-board
+al-setup-board() {
 	# Check if the BOARD environment variable is set
 	if [ -z "$BOARD" ]; then
 		echo "ERROR: BOARD environment variable is not set."
-		echo "Usage: BOARD=<board_name> _al_setup_board_env"
+		echo "Usage: BOARD=<board_name> al-setup-board"
 		return 1
 	fi
 
@@ -62,7 +62,7 @@ EOF
 # sudo -u "$USER": Switch to the target user inside unshare
 # env BOARD="$BOARD" PROMPT_COMMAND="...": Set environment variables for the new bash
 # /bin/bash -i: Start an interactive bash shell, which will:
-#   1. Source ~/.bashrc (this should define _al_init_board_env and _al_setup_board_env).
+#   1. Source ~/.bashrc (this should define _al_init_board_env and al-setup-board).
 #   2. Execute the PROMPT_COMMAND before showing the first prompt.
 sudo -E unshare -m -f --propagation slave sudo -u "$USER" \
 	env BOARD="$BOARD" \
@@ -73,12 +73,12 @@ echo "Exited '$BOARD' shell."
 }
 
 # Function 2: _al_init_board_env is now called automatically in the new shell if PROMPT_COMMAND works.
-# It expects out_$BOARD and out to both exist (handled by _al_setup_board_env).
+# It expects out_$BOARD and out to both exist (handled by al-setup-board).
 _al_init_board_env() {
 	# Check if the BOARD environment variable is set in the current (post-unshare) shell
 	if [ -z "$BOARD" ]; then
 		echo "ERROR: BOARD environment variable is not set in this shell."
-		echo "       This should have been propagated by '_al_setup_board_env'."
+		echo "       This should have been propagated by 'al-setup-board'."
 		return 1
 	fi
 
@@ -91,7 +91,7 @@ _al_init_board_env() {
 	# 1. Perform the mount
 	if [ ! -d "./${out_backup_dir}" ]; then
 		echo "  ERROR: Bind mount source './${out_backup_dir}' directory not found."
-		echo "         '_al_setup_board_env' should have handled its creation or preservation."
+		echo "         'al-setup-board' should have handled its creation or preservation."
 		return 1
 	fi
 	if [ ! -d "./${out_mount_point}" ]; then
@@ -136,6 +136,6 @@ _al_init_board_env() {
 	echo "  Run 'lunch ${BOARD}-trunk_staging-userdebug'."
 }
 
-alias al-setup-brya='BOARD=brya _al_setup_board_env'
-alias al-setup-hylia='BOARD=hylia _al_setup_board_env'
-alias al-setup-rauru='BOARD=rauru _al_setup_board_env'
+alias al-setup-brya='BOARD=brya al-setup-board'
+alias al-setup-hylia='BOARD=hylia al-setup-board'
+alias al-setup-rauru='BOARD=rauru al-setup-board'
