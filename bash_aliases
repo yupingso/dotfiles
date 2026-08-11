@@ -11,6 +11,7 @@ alias vimdiff='nvim -d'
 alias tmux=tmx2
 alias ta='tmux a'
 alias copybara='/google/bin/releases/copybara/public/copybara/copybara'
+alias ipython='ipython3'
 
 # Function to activate a specific venv and run ipython
 vipython() {
