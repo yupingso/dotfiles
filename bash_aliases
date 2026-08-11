@@ -40,13 +40,16 @@ vipython() {
 # Google
 #alias gemini='/google/bin/releases/gemini-cli/tools/gemini'
 alias gemini='/google/bin/images/image-69fd9a54-0000-20ae-a971-883d24ff3dec/gemini'
-alias jetski='/google/bin/releases/jetski-devs/tools/cli'
+alias jetski='/google/bin/releases/jetski-devs/tools/cli\
+  --add-dir=$HOME/projects/cros-scripts'
 alias jetski-fw='jetski \
+  --add-dir=$HOME/projects/blobs \
   --add-dir=$HOME/projects/chromiumos/src/third_party/coreboot \
   --add-dir=$HOME/projects/chromiumos/src/platform/depthcharge \
   --add-dir=$HOME/projects/chromiumos/src/platform/vboot_reference'
 
 alias jetski-fwtool='jetski \
+  --add-dir=$HOME/projects/chromiumos/src/platform/vboot_reference \
   --add-dir=$HOME/projects/arsp/vendor/google/desktop/firmware-tool \
   --add-dir=$HOME/projects/arsp/vendor/google/desktop/vpd-executor \
   --add-dir=$HOME/projects/arsp/system/desktop/fingerprint/libfmap'
