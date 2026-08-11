@@ -46,7 +46,7 @@ if [ -d "$HOME/projects/crosfleet" ] ; then
     PATH="$PATH:$HOME/projects/crosfleet"
 fi
 
-export EDITOR="vim"
+export EDITOR="nvim"
 if [ -d "$HOME/.cargo/bin" ] ; then
     PATH="$HOME/.cargo/bin:$PATH"
 fi
