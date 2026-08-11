@@ -180,7 +180,7 @@ tmux_conf_theme_right_separator_sub='|'
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_status_left=' #S '
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} , %R , %d %b | #{username}#{root} | jetski #(~/.gemini/jetski/cli/statusline_summary.sh) '
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} , %R , %d %b | #{username}#{root} | jetski #(${HOME}/projects/cros-scripts/gemini/jetski/tmux-notifier/statusline_summary.sh) '
 
 # status left style
 tmux_conf_theme_status_left_fg='#000000,#e4e4e4,#e4e4e4'  # black, white , white
@@ -305,10 +305,13 @@ bind z switch-client -l
 set -g status-interval 5
 
 # Bind 'Prefix + v' to view the detailed list of active tasks.
-bind-key v run-shell "~/.gemini/jetski/cli/list_notifications.sh"
+bind-key v run-shell "${HOME}/projects/cros-scripts/gemini/jetski/tmux-notifier/open_tasks_popup.sh"
+
+# Bind 'Ctrl + v' (root keybinding) to view detailed list of active tasks.
+bind-key -n C-v run-shell "${HOME}/projects/cros-scripts/gemini/jetski/tmux-notifier/open_tasks_popup.sh"
 
 # Bind 'Prefix + N' to clear notifications for CURRENT window.
-bind-key N run-shell "~/.gemini/jetski/cli/mark_read.sh"
+bind-key N run-shell "${HOME}/projects/cros-scripts/gemini/jetski/tmux-notifier/mark_read.sh"
 
 
 # -- Tmux Plugin Manager -------------------------------------------------------
