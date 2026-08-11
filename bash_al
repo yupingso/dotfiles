@@ -1,16 +1,18 @@
 # Function 1: Executed in the outer shell, prepares directories and enters the unshare environment
-# Usage: BOARD=<board_name> al-setup-board
+# Usage: ARSP_BOARD=<board_name> al-setup-board (or BOARD=<board_name> al-setup-board)
 al-setup-board() {
-	# Check if the BOARD environment variable is set
-	if [ -z "$BOARD" ]; then
-		echo "ERROR: BOARD environment variable is not set."
-		echo "Usage: BOARD=<board_name> al-setup-board"
+	local board="${ARSP_BOARD:-${BOARD:-}}"
+	# Check if ARSP_BOARD (or BOARD) environment variable is set
+	if [ -z "$board" ]; then
+		echo "ERROR: ARSP_BOARD environment variable is not set."
+		echo "Usage: ARSP_BOARD=<board_name> al-setup-board"
 		return 1
 	fi
+	export ARSP_BOARD="$board"
 
-	echo "Preparing environment for BOARD='$BOARD' in $(pwd)..."
+	echo "Preparing environment for ARSP_BOARD='$ARSP_BOARD' in $(pwd)..."
 
-	local out_backup_dir="out_$BOARD" # Backup directory / mount source, e.g., out_brya
+	local out_backup_dir="out_${ARSP_BOARD}" # Backup directory / mount source, e.g., out_brya
 	local out_mount_point="out"      # Mount point is fixed to "out"
 
 	# Core logic change: Directory handling
@@ -20,16 +22,16 @@ al-setup-board() {
 		echo "  INFO: Bind mount source './${out_backup_dir}' already exists and will be preserved."
 		echo "        Any existing './${out_mount_point}' will be used as the mount target (its contents will be hidden by the mount)."
 	else
-		# If out_$BOARD does NOT exist, then we consider whether to create it from an existing 'out'
+		# If out_$ARSP_BOARD does NOT exist, then we consider whether to create it from an existing 'out'
 		if [ -d "./${out_mount_point}" ]; then
-			# out_$BOARD does not exist, but out exists, so move out to become out_$BOARD
+			# out_$ARSP_BOARD does not exist, but out exists, so move out to become out_$ARSP_BOARD
 			echo "  INFO: Bind mount source './${out_backup_dir}' does not exist."
 			echo "        Moving current './${out_mount_point}' to './${out_backup_dir}' to serve as the bind mount source."
 			mv "./${out_mount_point}" "./${out_backup_dir}"
 			# Note: After moving, the original out_mount_point ('out') will disappear,
 			# and an empty one will be recreated later.
 		else
-			# Neither out_$BOARD nor out exists
+			# Neither out_$ARSP_BOARD nor out exists
 			echo "  WARNING: Neither './${out_backup_dir}' (target bind mount source) nor './${out_mount_point}' (original source for backup) found."
 			echo "           './${out_backup_dir}' will effectively be an empty directory if '_al_init_board_env' proceeds to mount it (unless you create and populate it manually first)."
 			echo "           Creating an empty './${out_backup_dir}' as a placeholder for the bind mount source."
@@ -41,7 +43,7 @@ al-setup-board() {
 	echo "  Ensuring './${out_mount_point}' directory (target for bind mount) exists..."
 	mkdir -p "./${out_mount_point}" # This will be the target for the bind mount.
 
-	echo "Launching isolated '$BOARD' shell. Environment initialization will be attempted automatically." # Updated message
+	echo "Launching isolated '$ARSP_BOARD' shell. Environment initialization will be attempted automatically."
 	echo "------------------------------------------------------------------"
 
 	# Command to be executed by the new shell before the first prompt.
@@ -58,34 +60,28 @@ fi
 unset PROMPT_COMMAND
 EOF
 
-# sudo -E: Preserve environment for unshare itself (important for BOARD if not explicitly passed later, though we do)
-# sudo -u "$USER": Switch to the target user inside unshare
-# env BOARD="$BOARD" PROMPT_COMMAND="...": Set environment variables for the new bash
-# /bin/bash -i: Start an interactive bash shell, which will:
-#   1. Source ~/.bashrc (this should define _al_init_board_env and al-setup-board).
-#   2. Execute the PROMPT_COMMAND before showing the first prompt.
 sudo -E unshare -m -f --propagation slave sudo -u "$USER" \
-	env BOARD="$BOARD" \
+	env ARSP_BOARD="$ARSP_BOARD" \
 	PROMPT_COMMAND="$auto_init_script_for_prompt_command" \
 	/bin/bash -i
 
-echo "Exited '$BOARD' shell."
+echo "Exited '$ARSP_BOARD' shell."
 }
 
 # Function 2: _al_init_board_env is now called automatically in the new shell if PROMPT_COMMAND works.
-# It expects out_$BOARD and out to both exist (handled by al-setup-board).
+# It expects out_$ARSP_BOARD and out to both exist (handled by al-setup-board).
 _al_init_board_env() {
-	# Check if the BOARD environment variable is set in the current (post-unshare) shell
-	if [ -z "$BOARD" ]; then
-		echo "ERROR: BOARD environment variable is not set in this shell."
+	# Check if the ARSP_BOARD environment variable is set in the current (post-unshare) shell
+	if [ -z "$ARSP_BOARD" ]; then
+		echo "ERROR: ARSP_BOARD environment variable is not set in this shell."
 		echo "       This should have been propagated by 'al-setup-board'."
 		return 1
 	fi
 
-	echo "Initializing environment for BOARD='$BOARD' from within the isolated shell (auto-triggered)..."
+	echo "Initializing environment for ARSP_BOARD='$ARSP_BOARD' from within the isolated shell (auto-triggered)..."
 	echo "  Current directory: $(pwd)"
 
-	local out_backup_dir="out_$BOARD" # Mount source
+	local out_backup_dir="out_${ARSP_BOARD}" # Mount source
 	local out_mount_point="out"      # Mount point
 
 	# 1. Perform the mount
@@ -118,9 +114,10 @@ _al_init_board_env() {
 	fi
 
 
-	# 2. Set the command prompt
-	export PS1="$BOARD:$PS1"
-	echo "  Shell prompt updated for '$BOARD'."
+	# 2. Set the command prompt and environment variables
+	export ARSP_BOARD="$ARSP_BOARD"
+	export PS1="$ARSP_BOARD:$PS1"
+	echo "  Shell prompt updated for '$ARSP_BOARD'."
 
 	# 3. Source the build environment setup script
 	if [ -f "build/envsetup.sh" ]; then
@@ -131,11 +128,11 @@ _al_init_board_env() {
 		echo "  WARNING: 'build/envsetup.sh' not found in $(pwd). Skipping."
 	fi
 
-	echo "  Environment initialized for '$BOARD'."
-	echo "  Type 'exit' to leave this isolated '$BOARD' shell."
-	echo "  Run 'lunch ${BOARD}-trunk_staging-userdebug'."
+	echo "  Environment initialized for '$ARSP_BOARD'."
+	echo "  Type 'exit' to leave this isolated '$ARSP_BOARD' shell."
+	echo "  Run 'lunch ${ARSP_BOARD}-trunk_staging-userdebug'."
 }
 
-alias al-setup-brya='BOARD=brya al-setup-board'
-alias al-setup-hylia='BOARD=hylia al-setup-board'
-alias al-setup-rauru='BOARD=rauru al-setup-board'
+alias al-setup-brya='ARSP_BOARD=brya al-setup-board'
+alias al-setup-hylia='ARSP_BOARD=hylia al-setup-board'
+alias al-setup-rauru='ARSP_BOARD=rauru al-setup-board'
