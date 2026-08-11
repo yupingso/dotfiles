@@ -47,3 +47,6 @@ if [ -d "$HOME/projects/crosfleet" ] ; then
 fi
 
 export EDITOR="vim"
+if [ -d "$HOME/.cargo/bin" ] ; then
+    PATH="$HOME/.cargo/bin:$PATH"
+fi
