@@ -64,6 +64,7 @@ alias up='repo upload . --cbr'
 alias upn='repo upload . --cbr --no-verify'
 alias upc='cros_sdk --working-dir . -- repo upload . --cbr'
 alias upr='repo-upload-rebase.sh'
+alias uprd='repo-upload-rebase.sh -D .'
 alias get-commit-kernel-ref="git log -1 --pretty=format:'commit %h ("%s")' --abbrev=12"
 alias md_browser='python2 ~/projects/chromiumos/src/chromium/src/tools/md_browser/md_browser.py'
 alias shivas='/usr/local/google/home/yupingso/projects/shivas/shivas'
