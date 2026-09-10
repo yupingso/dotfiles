@@ -79,9 +79,16 @@ alias al-flash-usb='~/.cargo/bin/writedisk'
 alias fa='/google/data/ro/projects/android/fetch_artifact'
 
 # Rust
-alias cgb='cargo build'
-alias cgc='cargo clippy --all-targets -- -D missing_docs -D warnings -D unsafe_op_in_unsafe_fn -D clippy::undocumented_unsafe_blocks'
-alias cgt='cargo test'
+_my_cargo() {
+  if [ -z "${ANDROID_HOST_OUT}" ]; then
+    echo "Error: ANDROID_HOST_OUT is not set. Please run lunch first." >&2
+    return 1
+  fi
+  LIBRARY_PATH="${ANDROID_HOST_OUT}/lib64${LIBRARY_PATH:+:$LIBRARY_PATH}" cargo "$@"
+}
+alias cgb='_my_cargo build'
+alias cgc='_my_cargo clippy --all-targets -- -D missing_docs -D warnings -D unsafe_op_in_unsafe_fn -D clippy::undocumented_unsafe_blocks'
+alias cgt='_my_cargo test'
 unalias cgf 2>/dev/null
 cgf() {
   find . -name "*.rs" | xargs rustfmt --config-path ~/projects/arsp/build/soong/scripts/rustfmt.toml
