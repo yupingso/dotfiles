@@ -302,6 +302,9 @@ set -g mode-keys vi
 # session
 bind z switch-client -l
 
+# Avoid gap between session badge and tab 0 when focused, but keep padding when unfocused
+set -g status-left '#[fg=#000000]#{?#{||:#{m:*.c.googlers.com,#{host}},#{m:*cloudtop*,#{host}}},#[bg=#ffff00],#[bg=#00d787]}#[bold] #S #{?#{==:#{window_index},0},,#[default] }' #!important
+
 
 # -- jetski notification system ------------------------------------------------
 
