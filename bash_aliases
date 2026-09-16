@@ -9,7 +9,36 @@ alias reboot='echo "Are you sure? (y/n)" && read -r confirm && [[ "$confirm" == 
 alias vim=nvim
 alias vimdiff='nvim -d'
 alias tmux=tmx2
-alias ta='tmux a'
+
+# 7-day gcert on Cloudtop only (LOAS2 only)
+if [[ "$(hostname -d 2>/dev/null)" == "c.googlers.com" ]]; then
+	gcert() {
+		if [[ "$*" =~ (^|[[:space:]])(-e|--emergency)($|[[:space:]]) ]]; then
+			command gcert "$@"
+		else
+			command gcert --lifetime=168h --nocorpssh --noprodssh "$@"
+		fi
+	}
+fi
+
+# Refresh SSH credentials without touching 7-day LOAS2
+gcert-ssh() {
+	command gcert --corpssh --noloas2 "$@"
+}
+
+unalias ta 2>/dev/null
+ta() {
+	if command -v gcertstatus >/dev/null 2>&1; then
+		local check_args=(--quiet --check_remaining=12h)
+		if [[ "$(hostname -d 2>/dev/null)" == "c.googlers.com" ]]; then
+			check_args+=(--nocheck_ssh)
+		fi
+		if ! gcertstatus "${check_args[@]}" 2>/dev/null; then
+			gcert
+		fi
+	fi
+	tmux a "$@"
+}
 alias copybara='/google/bin/releases/copybara/public/copybara/copybara'
 alias ipython='ipython3'
 
