@@ -5,41 +5,11 @@ alias ag='rg'
 alias rcolor='sed -i -r "s///g; s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g"'
 alias reboot='echo "Are you sure? (y/n)" && read -r confirm && [[ "$confirm" == "y" ]] && /sbin/reboot'
 
-# gLinux
+# Editor
 alias vim=nvim
 alias vimdiff='nvim -d'
-alias tmux=tmx2
 
-# 7-day gcert on Cloudtop only (LOAS2 only)
-if [[ "$(hostname -d 2>/dev/null)" == "c.googlers.com" ]]; then
-	gcert() {
-		if [[ "$*" =~ (^|[[:space:]])(-e|--emergency)($|[[:space:]]) ]]; then
-			command gcert "$@"
-		else
-			command gcert --lifetime=168h --nocorpssh --noprodssh "$@"
-		fi
-	}
-fi
-
-# Refresh SSH credentials without touching 7-day LOAS2
-gcert-ssh() {
-	command gcert --corpssh --noloas2 "$@"
-}
-
-unalias ta 2>/dev/null
-ta() {
-	if command -v gcertstatus >/dev/null 2>&1; then
-		local check_args=(--quiet --check_remaining=12h)
-		if [[ "$(hostname -d 2>/dev/null)" == "c.googlers.com" ]]; then
-			check_args+=(--nocheck_ssh)
-		fi
-		if ! gcertstatus "${check_args[@]}" 2>/dev/null; then
-			gcert
-		fi
-	fi
-	tmux a "$@"
-}
-alias copybara='/google/bin/releases/copybara/public/copybara/copybara'
+# Python
 alias ipython='ipython3'
 
 # Function to activate a specific venv and run ipython
@@ -64,71 +34,4 @@ vipython() {
 
 	echo "Deactivating virtual environment..."
 	deactivate
-}
-
-# Google
-alias tu='$HOME/projects/cros-scripts/tmux_util.py'
-#alias gemini='/google/bin/releases/gemini-cli/tools/gemini'
-alias gemini='/google/bin/images/image-69fd9a54-0000-20ae-a971-883d24ff3dec/gemini'
-alias jetski='/google/bin/releases/jetski-devs/tools/cli\
-  --add-dir=$HOME/projects/cros-scripts'
-alias jetski-fw='jetski \
-  --add-dir=$HOME/projects/blobs \
-  --add-dir=$HOME/projects/chromiumos/src/third_party/coreboot \
-  --add-dir=$HOME/projects/chromiumos/src/platform/depthcharge \
-  --add-dir=$HOME/projects/chromiumos/src/platform/vboot_reference'
-
-alias jetski-fwtool='jetski \
-  --add-dir=$HOME/projects/chromiumos/src/platform/vboot_reference \
-  --add-dir=$HOME/projects/arsp/vendor/google/desktop/firmware-tool \
-  --add-dir=$HOME/projects/arsp/vendor/google/desktop/vpd-executor \
-  --add-dir=$HOME/projects/arsp/system/desktop/fingerprint/libfmap'
-
-alias allow-ptrace='sudo glinux-config -u set yama_ptrace false'
-
-# Chromium
-alias dut-console='~/projects/chromiumos/src/platform/dev/contrib/dut-console'
-alias gen_uprev_msg='~/projects/chromiumos/src/platform/dev/contrib/gen_uprev_msg.py'
-alias up='repo upload . --cbr'
-alias upn='repo upload . --cbr --no-verify'
-alias upc='cros_sdk --working-dir . -- repo upload . --cbr'
-alias upr='repo-upload-rebase.sh'
-alias uprd='repo-upload-rebase.sh -D .'
-alias get-commit-kernel-ref="git log -1 --pretty=format:'commit %h ("%s")' --abbrev=12"
-alias md_browser='python2 ~/projects/chromiumos/src/chromium/src/tools/md_browser/md_browser.py'
-alias shivas='/usr/local/google/home/yupingso/projects/shivas/shivas'
-
-# Android
-alias rs='repo sync -c --optimized-fetch'
-alias rsn='repo sync -c --optimized-fetch --nmu'
-alias al-smartsync='/google/src/head/depot/google3/wireless/android/aluminium/smartsync/sync.py --optimized-fetch'
-alias srepo-sync='/google/data/ro/projects/android/smartsync_repo sync --optimized-fetch'
-alias srepo='/google/data/ro/projects/android/smartsync_repo'
-alias al-flash-usb='~/.cargo/bin/writedisk'
-alias fa='/google/data/ro/projects/android/fetch_artifact'
-
-# Rust
-_my_cargo() {
-  if [ -z "${ANDROID_HOST_OUT}" ]; then
-    echo "Error: ANDROID_HOST_OUT is not set. Please run lunch first." >&2
-    return 1
-  fi
-  LIBRARY_PATH="${ANDROID_HOST_OUT}/lib64${LIBRARY_PATH:+:$LIBRARY_PATH}" cargo "$@"
-}
-alias cgb='_my_cargo build'
-alias cgc='_my_cargo clippy --all-targets -- -D missing_docs -D warnings -D unsafe_op_in_unsafe_fn -D clippy::undocumented_unsafe_blocks'
-alias cgt='_my_cargo test'
-unalias cgf 2>/dev/null
-cgf() {
-  find . -name "*.rs" | xargs rustfmt --config-path ~/projects/arsp/build/soong/scripts/rustfmt.toml
-}
-alias cg='cgc && cgt && cgf'
-
-# DTS
-jf() {
-  local arsp="${HOME}/projects/arsp"
-  "${arsp}/tools/repohooks/tools/google-java-format.py" --fix \
-    --google-java-format "${arsp}/prebuilts/tools/common/google-java-format/google-java-format" \
-    --google-java-format-diff "${arsp}/prebuilts/tools/common/google-java-format/google-java-format-diff.py" \
-    "$@"
 }
