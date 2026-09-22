@@ -486,6 +486,12 @@ nnoremap <leader>gw :GRgw <C-R><C-W><cr>
 
 nnoremap <leader>gb :Git blame<cr>
 
+" Work-specific vim settings (git-tracked in cros-scripts)
+if filereadable(expand("~/projects/cros-scripts/vim/vimrc.cros"))
+    source ~/projects/cros-scripts/vim/vimrc.cros
+endif
+
+" Host-specific vim overrides (untracked per-device)
 if filereadable(expand("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
