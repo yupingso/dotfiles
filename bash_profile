@@ -26,24 +26,8 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d "$HOME/projects/depot_tools" ] ; then
-    PATH="$HOME/projects/depot_tools:$PATH"
-fi
-
-if [ -d "$HOME/projects/chromiumos/src/third_party/hdctools/scripts" ] ; then
-    PATH="$HOME/projects/chromiumos/src/third_party/hdctools/scripts:$PATH"
-fi
-
-if [ -d "$HOME/projects/cros-scripts" ] ; then
-    PATH="$PATH:$HOME/projects/cros-scripts"
-fi
-
 if [ -d "$HOME/projects/dotfiles/scripts" ] ; then
     PATH="$PATH:$HOME/projects/dotfiles/scripts"
-fi
-
-if [ -d "$HOME/projects/crosfleet" ] ; then
-    PATH="$PATH:$HOME/projects/crosfleet"
 fi
 
 export EDITOR="nvim"
