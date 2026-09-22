@@ -1,6 +1,0 @@
-# Legacy ARSP setup functions have been migrated to standalone scripts in
-# ~/projects/cros-scripts/al-setup-board.
-# Clean up any previously defined shell functions or aliases so the
-# executable script in PATH is used.
-unset -f al-setup-board _al_init_board_env 2>/dev/null
-unalias al-setup-brya al-setup-hylia al-setup-rauru al-setup-sapphire 2>/dev/null

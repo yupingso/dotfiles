@@ -103,10 +103,6 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-if [ -f ~/.bash_al ]; then
-    . ~/.bash_al
-fi
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -123,4 +119,9 @@ fi
 
 if [ -f "$HOME/projects/cros-scripts/env.sh" ]; then
     source "$HOME/projects/cros-scripts/env.sh"
+fi
+
+# Host-specific local environment (untracked per-device overrides)
+if [ -f "$HOME/.bashrc.local" ]; then
+    source "$HOME/.bashrc.local"
 fi
