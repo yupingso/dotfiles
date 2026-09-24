@@ -180,15 +180,11 @@ tmux_conf_theme_right_separator_sub='|'
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_status_left=' #S '
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} , %R , %d %b | #{username}#{root} | jetski #(${HOME}/projects/cros-scripts/gemini/jetski/tmux-notifier/statusline_summary.sh) '
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} , %R , %d %b | #{username}#{root} '
 
 # status left style
 tmux_conf_theme_status_left_fg='#000000,#e4e4e4,#e4e4e4'  # black, white , white
-%if "#{||:#{m:*.c.googlers.com,#{host}},#{m:*cloudtop*,#{host}}}"
-tmux_conf_theme_status_left_bg='#ffff00,#ff00af,#00afff'  # yellow (cloudtop), pink, white blue
-%else
-tmux_conf_theme_status_left_bg='#00d787,#ff00af,#00afff'  # green (workstation), pink, white blue
-%endif
+tmux_conf_theme_status_left_bg='#00d787,#ff00af,#00afff'  # green, pink, white blue
 tmux_conf_theme_status_left_attr='bold,none,none'
 
 # status right style
@@ -303,22 +299,7 @@ set -g mode-keys vi
 bind z switch-client -l
 
 # Avoid gap between session badge and tab 0 when focused, but keep padding when unfocused
-set -g status-left '#[fg=#000000]#{?#{||:#{m:*.c.googlers.com,#{host}},#{m:*cloudtop*,#{host}}},#[bg=#ffff00],#[bg=#00d787]}#[bold] #S #{?#{==:#{window_index},0},,#[default] }' #!important
-
-
-# -- jetski notification system ------------------------------------------------
-
-# Refresh status line every 5 seconds (to keep the counter responsive).
-set -g status-interval 5
-
-# Bind 'Prefix + v' to view the detailed list of active tasks.
-bind-key v run-shell "${HOME}/projects/cros-scripts/gemini/jetski/tmux-notifier/open_tasks_popup.sh"
-
-# Bind 'Ctrl + v' (root keybinding) to view detailed list of active tasks.
-bind-key -n C-v run-shell "${HOME}/projects/cros-scripts/gemini/jetski/tmux-notifier/open_tasks_popup.sh"
-
-# Bind 'Prefix + N' to clear notifications for CURRENT window.
-bind-key N run-shell "${HOME}/projects/cros-scripts/gemini/jetski/tmux-notifier/mark_read.sh"
+set -g status-left '#[fg=#000000,bg=#00d787,bold] #S #{?#{==:#{window_index},0},,#[default] }' #!important
 
 
 # -- Tmux Plugin Manager -------------------------------------------------------
@@ -335,3 +316,7 @@ set -g @plugin 'tmux-plugins/tmux-sensible'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
+
+# Load work-specific tmux settings if cros-scripts is present
+if-shell '[ -f "$HOME/projects/cros-scripts/tmux/tmux.conf" ]' \
+    'source-file "$HOME/projects/cros-scripts/tmux/tmux.conf"'
