@@ -10,7 +10,7 @@ Example filemap.json:
 
 ```json
 {
-  ".vimrc.local": "vimrc.local.chromium"
+  ".vimrc.local": "vimrc.local.custom"
 }
 ```
 ## Set up git
