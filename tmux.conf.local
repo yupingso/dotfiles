@@ -298,8 +298,10 @@ set -g mode-keys vi
 # session
 bind z switch-client -l
 
-# Avoid gap between session badge and tab 0 when focused, but keep padding when unfocused
-set -g status-left '#[fg=#000000,bg=#00d787,bold] #S #{?#{==:#{window_index},0},,#[default] }' #!important
+# Avoid gap between session badge and tab 0 when focused, but keep padding when unfocused.
+# The badge color can be overridden by later config via @status_left_bg.
+set -g @status_left_bg '#00d787'
+set -g status-left '#[fg=#000000,bg=#{@status_left_bg},bold] #S #{?#{==:#{window_index},0},,#[default] }' #!important
 
 
 # -- Tmux Plugin Manager -------------------------------------------------------
